@@ -156,7 +156,7 @@ linreg <- function(y,x,
                 p_value = c(p_value_t))
   colnames(coef_table)[3] <- gettextf("%.f%% CI",CI_level*100)
 
-  call <- paste0 (outcome,"~",paste0(vars,collapse = "+"))
+  call <- paste0 (outcome,"~",paste0(call_name,collapse = "+"))
 
   output <- list(Call = call,
                  coefficients = coef_table,
