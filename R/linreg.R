@@ -113,8 +113,6 @@ linreg <- function(y,x,
   ci_t <- qt(p = 1 - (1 - CI_level) / 2, df = (n - p))
   upper_ci <- hat_beta + ci_t * se_beta
   lower_ci <- hat_beta - ci_t * se_beta
-  ci_colname1 <- gettextf("'%s'% CI lower",CI_level*100)
-  ci_colname2 <- gettextf("'%s'% CI upper",CI_level*100)
   ci <- paste0("(",lower_ci,"-",upper_ci,")")
 
   coef_table <- cbind(Estimate = c(hat_beta),
@@ -122,7 +120,7 @@ linreg <- function(y,x,
                 ci = c(ci),
                 t_statistics = c(t_stat),
                 p_value = c(p_value_t))
-  colnames(coef_table)[3] <- gettextf("'%s'% CI",CI_level*100)
+  colnames(coef_table)[3] <- gettextf("%.f%% CI",CI_level*100)
 
   output <- list(coefficients = coef_table,
                  R_squared = R.squared,
