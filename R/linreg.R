@@ -115,19 +115,23 @@ linreg <- function(y,x,
 
   if (length(colnames(x)) == 0){
     if (intercept == T){
-      vars <- c("(Intercept)",paste0("vars",1:(p-1)))
+      vars <- c("(Intercept)",paste0("variable_",1:(p-1)))
+      call_name <- c(paste0("variable_",1:(p-1)),"intercept")
     }
     else{
-      vars <- c(paste0("vars",1:(p)))
+      vars <- c(paste0("variable_",1:(p)))
+      call_name <- vars
     }
   }
 
   else{
     if (intercept == T){
       vars <- c("(Intercept)",colnames(x)[-1])
+      call_name <- c(colnames(x)[-1],"intercept")
     }
     else{
       vars <- colnames(x)
+      call_name <- vars
     }
   }
 
