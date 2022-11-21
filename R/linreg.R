@@ -3,7 +3,7 @@
 #'fit simple regression models and multiple regression models.
 
 
-
+options(scipen = 1)
 
 linreg <- function(y,x,
                    method = "qr",
