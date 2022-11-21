@@ -3,8 +3,6 @@
 #'fit simple regression models and multiple regression models.
 
 
-options(scipen = 1)
-
 linreg <- function(y,x,
                    method = "qr",
                    intercept=T,
@@ -113,8 +111,40 @@ linreg <- function(y,x,
   ci_t <- qt(p = 1 - (1 - CI_level) / 2, df = (n - p))
   upper_ci <- hat_beta + ci_t * se_beta
   lower_ci <- hat_beta - ci_t * se_beta
-  ci <- paste0("(",lower_ci,"-",upper_ci,")")
+  ci <- paste0("(",lower_ci," - ",upper_ci,")")
 
+  if (length(colnames(x)) == 0){
+    if (intercept == T){
+      vars <- c("(Intercept)",paste0("vars",1:(p-1)))
+    }
+    else{
+      vars <- c(paste0("vars",1:(p)))
+    }
+  }
+
+  else{
+    if (intercept == T){
+      vars <- c("(Intercept)",colnames(x)[-1])
+    }
+    else{
+      vars <- colnames(x)
+    }
+  }
+
+  names(hat_beta) = vars
+  names(se_beta) = vars
+  names(ci) = vars
+  names(t_stat) = vars
+  names(p_value_t) = vars
+  names(hat_y) = 1:n
+  names(residuals) = 1:n
+
+  if (length(colnames(y)) == 0){
+    outcome <- "y"
+  }
+  else{
+    outcome <- colnames(y)
+  }
   coef_table <- cbind(Estimate = c(hat_beta),
                 Std_error = c(se_beta),
                 ci = c(ci),
@@ -122,7 +152,15 @@ linreg <- function(y,x,
                 p_value = c(p_value_t))
   colnames(coef_table)[3] <- gettextf("%.f%% CI",CI_level*100)
 
-  output <- list(coefficients = coef_table,
+  call <- paste0 (outcome,"~",paste0(vars,collapse = "+"))
+
+  output <- list(Call = call,
+                 coefficients = coef_table,
+                 fitted.values = hat_y,
+                 residuals = residuals,
+                 MSE = MSE,
+                 lower_ci = lower_ci,
+                 upper_ci = upper_ci,
                  R_squared = R.squared,
                  F_test = f_table)
   return(output)
