@@ -111,7 +111,7 @@ linreg <- function(y,x,
   ci_t <- qt(p = 1 - (1 - CI_level) / 2, df = (n - p))
   upper_ci <- hat_beta + ci_t * se_beta
   lower_ci <- hat_beta - ci_t * se_beta
-  ci <- paste0("(",lower_ci," - ",upper_ci,")")
+  ci <- paste0("(",lower_ci,", ",upper_ci,")")
 
   if (length(colnames(x)) == 0){
     if (intercept == T){
@@ -151,7 +151,7 @@ linreg <- function(y,x,
   }
   coef_table <- cbind(Estimate = c(hat_beta),
                 Std_error = c(se_beta),
-                ci = c(ci),
+                #ci = c(ci),
                 t_statistics = c(t_stat),
                 p_value = c(p_value_t))
   colnames(coef_table)[3] <- gettextf("%.f%% CI",CI_level*100)
