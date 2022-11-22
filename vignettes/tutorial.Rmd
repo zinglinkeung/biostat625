@@ -167,7 +167,7 @@ head(aids)
 
 ```{r}
 y <- aids$y
-x <- aids[,c(-4,-6)]
+x <- aids[,c(2,3)]
 
 code_efficiency_comparison <-  bench::mark(linreg = {
   beta.actual <-
