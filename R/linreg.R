@@ -83,7 +83,7 @@ linreg <- function(y,x,
     }
 
    hat_y <- as.vector(crossprod(t(x), hat_beta))
-   residuals <- y - hat_y
+   residuals <- as.vector(y) - hat_y
 
    SSE <- sum(residuals**2)
    MSE <- SSE/(n-p)
@@ -150,11 +150,11 @@ linreg <- function(y,x,
     outcome <- colnames(y)
   }
   coef_table <- cbind(Estimate = c(hat_beta),
-                Std_error = c(se_beta),
+                "Std. Error" = c(se_beta),
                 #ci = c(ci),
-                t_statistics = c(t_stat),
-                p_value = c(p_value_t))
-  colnames(coef_table)[3] <- gettextf("%.f%% CI",CI_level*100)
+                "t value" = c(t_stat),
+                "Pr(>|t|)"  = c(p_value_t))
+  #colnames(coef_table)[3] <- gettextf("%.f%% CI",CI_level*100)
 
   call <- paste0 (outcome," ~ ",paste0(call_name,collapse = "+"))
 
