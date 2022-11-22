@@ -174,7 +174,10 @@ summary_lm <- summary(lm_fit)
 # Testing Correctness:
 all(c(all.equal(lm_fit$residuals, linreg_fit$residuals),
       all.equal(lm_fit$fitted.values, linreg_fit$fitted.values),
-      all.equal(summary_lm$coefficients, linreg_fit$coefficients), 
+      all.equal(summary_lm$coefficients[[1]], linreg_fit$coefficients[[1]]),
+      all.equal(summary_lm$coefficients[[2]], linreg_fit$coefficients[[2]]),
+      all.equal(summary_lm$coefficients[[3]], linreg_fit$coefficients[[3]]),
+      all.equal(summary_lm$coefficients[[4]], linreg_fit$coefficients[[4]]),
       all.equal(summary_lm$r.squared, linreg_fit$R_squared[[1]]),
       all.equal(summary_lm$adj.r.squared, linreg_fit$R_squared[[2]]),
       all.equal(summary_lm$fstatistic[[1]], linreg_fit$F_test[[1]])
