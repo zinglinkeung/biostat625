@@ -184,6 +184,8 @@ all(c(all.equal(lm_fit$residuals, linreg_fit$residuals),
     ))
 ```
 
+The outcomes from two functions match, then we test the efficiency.
+
 ## Efficiency 
 
 Compare two functions' efficiency using `bench:mark()` function:
