@@ -213,7 +213,7 @@ itr <- as.numeric(comparison_table1[[4]])
 itr.ratio <- (itr-itr[4]) / itr[4]
 ```
 
-From the results above, `linreg` with qr method is `r round(itr.ration[1], digits = 2)` times faster than `stats::lm`, `linreg` with svd method is `r round(itr.ration[2], digits = 2)` times faster than `stats::lm`,`linreg` use basic least square calculation is `r round(itr.ration[3], digits = 2)` times faster than `stats::lm`.
+From the results above, `linreg` with qr method is `r round(itr.ratio[1], digits = 2)` times faster than `stats::lm`, `linreg` with svd method is `r round(itr.ratio[2], digits = 2)` times faster than `stats::lm`,`linreg` use basic least square calculation is `r round(itr.ratio[3], digits = 2)` times faster than `stats::lm`.
 
 
 
