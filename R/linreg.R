@@ -83,7 +83,7 @@ linreg <- function(y,x,
     }
 
    hat_y <- as.vector(crossprod(t(x), hat_beta))
-   residual <- y - hat_y
+   residuals <- y - hat_y
 
    SSE <- sum(residuals^2)
    MSE <- SSE/(n-p)
@@ -156,7 +156,7 @@ linreg <- function(y,x,
                 p_value = c(p_value_t))
   colnames(coef_table)[3] <- gettextf("%.f%% CI",CI_level*100)
 
-  call <- paste0 (outcome,"~",paste0(call_name,collapse = "+"))
+  call <- paste0 (outcome," ~ ",paste0(call_name,collapse = "+"))
 
   output <- list(Call = call,
                  coefficients = coef_table,
