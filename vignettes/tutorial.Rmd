@@ -1,5 +1,6 @@
 ---
-title: "tutorial"
+title: "tutorial for 'linreg'"
+author: "Zhilin Zhang"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{tutorial}
@@ -16,4 +17,178 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(linreg)
+library(boot)
+library(bench)
 ```
+
+# linreg: FItting Linear Models
+
+## Description
+
+`linreg` is used to fit linear models. It can be used to carry out regression with or without intercept and provide several hypothesis test results.
+
+## Usage
+
+linreg(y,x,method,intercept,CI_level)
+
+### Arguments
+
+#### y
+
+A column vector, treated as outcome.
+
+#### x
+
+A numerical matrix, treated as predictor.
+
+#### method
+
+Character value, "qr" (by default), "svd" or "inverse"
+
+a. [QR decompositiom methods](https://en.wikipedia.org/wiki/QR_decomposition)
+
+b. [SVD decompositiom methods](https://en.wikipedia.org/wiki/Singular_value_decomposition)
+
+c. [Least Squared estimator](https://en.wikipedia.org/wiki/Least_squares)
+
+#### intercept
+
+Logical values, TRUE (by default) or FALSE. If "TRUE", the model will include the intercept. 
+
+#### CI_level
+
+Numeric number, 0.95 (by default). Should be in (0,1) and directly change $\alpha$ used in confidence interval.
+
+### Examples
+
+*(1) Fit a simple linear regression model with intercept:*
+
+```{r}
+x <- rnorm(100)
+y <- rnorm(100)
+fit <- linreg(y,x)
+```
+
+*(2) Fit a simple linear regression model without intercept:*
+
+```{r}
+x <- rnorm(100)
+y <- rnorm(100)
+fit <- linreg(y,x,intercept = FALSE)
+```
+
+*(3) Fit a multiple linear regression model with intercept:*
+
+```{r}
+x <- rnorm(100)
+y <- matrix(rnorm(600),nrow=100,ncol=6)
+fit <- linreg(y,x)
+```
+
+*(4) Fit a multiple linear regression model without intercept:*
+
+```{r}
+x <- rnorm(100)
+y <- matrix(rnorm(600),nrow=100,ncol=6)
+fit <- linreg(y,x,intercept=FALSE)
+```
+
+*(4) Fit a multiple linear regression model with intercept and $\alpha=0.9$:*
+
+```{r}
+x <- rnorm(100)
+y <- matrix(rnorm(600),nrow=100,ncol=6)
+fit <- linreg(y,x,CI_level = 0.9)
+```
+
+we can check regression outcomes as follow:
+
+a. check the exact fitted model
+
+```{r}
+fit$Call #function of the regression model
+```
+
+b. check estimated coefficients and the partial t test
+
+```{r}
+knitr::kable(fit$coefficients) 
+
+#coefficients table include estimators of coefficients, standard error, confidence interval, T statistics and corresponding p-value.
+```
+
+c. check the fitted value of the model
+
+```{r}
+head(fit$fitted.values) #the first 6 fitted values
+```
+
+d. check the residuals
+
+```{r}
+fit$residuals # the first 6 residuals
+```
+
+e. check the model's mean square error
+
+```{r}
+fit$MSE
+```
+
+f. check the confidence interval of the estimator
+
+```{r}
+data.frame(fit$lower_ci,fit$upper_ci)
+```
+
+g. check the R^2 and adjusted R^2
+
+```{r}
+data.frame(fit$R_squared)
+```
+
+h. check the overall F test, results including f-statistics, corresponding p value and the degree of freedom.
+
+```{r}
+data.frame(fit$F_test)
+```
+
+
+## Efficiency 
+
+We use UN in `car` package to test the efficiency.
+
+Compare two functions' efficiency using `bench:mark()` function:
+
+```{r}
+library(boot)
+head(aids)
+```
+
+```{r}
+y <- aids$y
+x <- aids[,c(-4,-6)]
+
+code_efficiency_comparison <-  bench::mark(linreg = {
+  beta.actual <-
+    linreg(y, x)$coefficients[,1]
+  as.vector(beta.actual)
+}, "stat::lm" = {
+  beta.expected <- lm(y ~ x)$coefficients
+  as.vector(beta.expected)
+})  
+
+summary(code_efficiency_comparison)
+
+itr.per.sec <- as.numeric(code_efficiency_comparison[[4]])
+itr.per.sec.ratio <- itr.per.sec[1] / itr.per.sec[2]
+```
+
+
+
+
+
+
+
+
+
