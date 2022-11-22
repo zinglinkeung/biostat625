@@ -85,7 +85,7 @@ linreg <- function(y,x,
    hat_y <- as.vector(crossprod(t(x), hat_beta))
    residuals <- y - hat_y
 
-   SSE <- sum(residuals^2)
+   SSE <- sum(residuals**2)
    MSE <- SSE/(n-p)
 
    var_beta <- MSE * diag(solve(t(x) %*% x))
