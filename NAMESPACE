@@ -1,1 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+import(bench)
+import(boot)
+importFrom("stats","pf","pt")
+importFrom("stats", "qt")

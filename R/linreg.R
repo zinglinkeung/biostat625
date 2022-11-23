@@ -1,7 +1,33 @@
 #'linreg
 #'
 #'fit simple regression models and multiple regression models.
-
+#'
+#'@importFrom stats pf pt qt
+#'
+#'@import boot bench
+#'
+#'@param y a column vector, treated as outcome.
+#'
+#'@param x a numerical matrix, treated as predictor.
+#'
+#'@param method Character value, "qr" (by default), "svd" or "inverse"
+#'
+#'@param intercept logical, "TRUE" by default.
+#'If "FALSE", the model will not include the intercept.
+#'
+#'@param CI_level Numeric number, 0.95 (by default).
+#'Should be in (0,1) and directly change alpha used in confidence interval.
+#'
+#'@return A list contains regression results.
+#'
+#'@examples
+#'  x <- matrix(c(-1, -2, -3, -4, -5, 1, 3, 5, 7, 9), nrow = 5)
+#'  y <- c(2, 5, 8, 11, 19)
+#'  # fit the linear model without an intercept
+#'  linreg(y, x, intercept = FALSE)
+#'
+#'@export
+#'
 
 linreg <- function(y,x,
                    method = "qr",
