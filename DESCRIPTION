@@ -5,10 +5,11 @@ Version: 0.1.0
 Author: Zhilin Zhang
 Maintainer: Zhilin Zhang <zzhilin@umich.edu>
 Description: Carry out simple linear regression and multiple linear regression with basic hypothesis tests.
-License: GPL-3
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Suggests: 
+    covr,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
