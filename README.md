@@ -19,13 +19,103 @@ devtools::install_github("zinglinkeung/linreg")
 
 ## Usage
 
+To learn more about `linreg`,please refer to vignettes for tutorial and correctness and efficiency tests.
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+The following are basic examples which shows you how to build linear regression models:
 
 ``` r
 library(linreg)
-## basic example code
+```
+*(1) Fit a simple linear regression model with intercept:*
+
+```r
+x <- rnorm(100)
+y <- rnorm(100)
+fit <- linreg(y,x)
 ```
 
+*(2) Fit a simple linear regression model without intercept:*
+
+```r
+x <- rnorm(100)
+y <- rnorm(100)
+fit <- linreg(y,x,intercept = FALSE)
+```
+
+*(3) Fit a multiple linear regression model with intercept:*
+
+```r
+x <- rnorm(100)
+y <- matrix(rnorm(600),nrow=100,ncol=6)
+fit <- linreg(y,x)
+```
+
+*(4) Fit a multiple linear regression model without intercept:*
+
+```r
+x <- rnorm(100)
+y <- matrix(rnorm(600),nrow=100,ncol=6)
+fit <- linreg(y,x,intercept=FALSE)
+```
+
+*(4) Fit a multiple linear regression model with intercept and $\alpha=0.9$:*
+
+```r
+x <- rnorm(100)
+y <- matrix(rnorm(600),nrow=100,ncol=6)
+fit <- linreg(y,x,CI_level = 0.9)
+```
+
+we can check regression outcomes as follow:
+
+a. check the exact fitted model
+
+```r
+fit$Call #function of the regression model
+```
+
+b. check estimated coefficients and the partial t test
+
+```r
+knitr::kable(fit$coefficients) 
+
+#coefficients table include estimators of coefficients, standard error, confidence interval, T statistics and corresponding p-value.
+```
+
+c. check the fitted value of the model
+
+```r
+head(fit$fitted.values) #the first 6 fitted values
+```
+
+d. check the residuals
+
+```r
+fit$residuals # the first 6 residuals
+```
+
+e. check the model's mean square error
+
+```r
+fit$MSE
+```
+
+f. check the confidence interval of the estimator
+
+```r
+data.frame(fit$lower_ci,fit$upper_ci)
+```
+
+g. check the R^2 and adjusted R^2
+
+```r
+data.frame(fit$R_squared)
+```
+
+h. check the overall F test, results including f-statistics, corresponding p value and the degree of freedom.
+
+```r
+data.frame(fit$F_test)
+```
