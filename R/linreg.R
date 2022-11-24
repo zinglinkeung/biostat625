@@ -2,6 +2,8 @@
 #'
 #'fit simple regression models and multiple regression models.
 #'
+#'However package cannot deal with datasets containing missing values.
+#'
 #'@importFrom stats pf pt qt
 #'
 #'@import boot bench

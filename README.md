@@ -8,6 +8,8 @@
 
 The goal of `linreg` is to build up simple linear regression and multiple linear regression models with or without intercept. Linear regression can be done by three calculation methods. QR decomposition is the default, singular value decomposition(SVD) and least square estimation method(LSE) also applied. The outcome includes estimation results, partial T test and overall F test.
 
+However `linreg` package cannot deal with datasets containing missing values.
+
 ## Installation
 
 You can install the development version of linreg from [GitHub](https://github.com/) with:

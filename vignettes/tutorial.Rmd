@@ -27,6 +27,8 @@ library(bench)
 
 `linreg` is used to fit linear models. It can be used to carry out regression with or without intercept and provide several hypothesis test results.
 
+However `linreg` package cannot deal with datasets containing missing values.
+
 ## Usage
 
 linreg(y,x,method,intercept,CI_level)
@@ -93,11 +95,11 @@ x <- matrix(rnorm(600),nrow=100,ncol=6)
 fit <- linreg(y,x,intercept=FALSE)
 ```
 
-*(4) Fit a multiple linear regression model with intercept and $\alpha=0.9$:*
+*(4) Fit a multiple linear regression model with intercept and 90% CI:*
 
 ```{r}
-x <- rnorm(100)
-y <- matrix(rnorm(600),nrow=100,ncol=6)
+y <- rnorm(100)
+x <- matrix(rnorm(600),nrow=100,ncol=6)
 fit <- linreg(y,x,CI_level = 0.9)
 ```
 
@@ -112,9 +114,8 @@ fit$Call #function of the regression model
 b. check estimated coefficients and the partial t test
 
 ```{r}
-knitr::kable(fit$coefficients) 
-
 #coefficients table include estimators of coefficients, standard error, confidence interval, T statistics and corresponding p-value.
+knitr::kable(fit$coefficients) 
 ```
 
 c. check the fitted value of the model
@@ -126,7 +127,7 @@ head(fit$fitted.values) #the first 6 fitted values
 d. check the residuals
 
 ```{r}
-fit$residuals # the first 6 residuals
+head(fit$residuals) # the first 6 residuals
 ```
 
 e. check the model's mean square error
