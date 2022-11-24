@@ -8,5 +8,6 @@
 
 library(testthat)
 library(linreg)
+library(boot)
 
 test_check("linreg")
