@@ -3,7 +3,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/zinglinkeung/biostat625/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/zinglinkeung/biostat625/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/zinglinkeung/biostat625/branch/main/graph/badge.svg)](https://app.codecov.io/gh/zinglinkeung/linreg?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/zinglinkeung/linreg/branch/main/graph/badge.svg)](https://app.codecov.io/gh/zinglinkeung/linreg?branch=main)
 <!-- badges: end -->
 
 The goal of linreg is to ...
