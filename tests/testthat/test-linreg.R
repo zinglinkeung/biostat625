@@ -103,7 +103,8 @@ test_that("Whether two function are equal in multiple linear regression with svd
 
 test_that("Whether two function are equal in multiple linear regression with svd", {
   # Test model 7
-  y <- aids$y
+  y <- as.matrix(aids$y)
+  colnames(y) <- "y"
   x <- as.matrix(aids[,c(2,3)])
   model.linr <- linreg(y,x,intercept = F)
   model.lm <- lm(y ~ -1+x)
