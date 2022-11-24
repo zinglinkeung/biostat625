@@ -21,10 +21,22 @@
 #'@return A list contains regression results.
 #'
 #'@examples
-#'  x <- matrix(c(-1, -2, -3, -4, -5, 1, 3, 5, 7, 9), nrow = 5)
-#'  y <- c(2, 5, 8, 11, 19)
-#'  # fit the linear model without an intercept
-#'  linreg(y, x, intercept = FALSE)
+#'  x <- rnorm(100)
+#'  y <- rnorm(100)
+#'  # fit the linear model with an intercept
+#'  linreg(y,x)
+#'
+#'  fit the linear model without an intercept
+#'  linreg(y,x,intercept=T)
+#'
+#'  fit the linear model with svd decomposition
+#'  linreg(y,x,method = "svd")
+#'
+#'  fit the linear model with LSE
+#'  linreg(y,x,method = "inverse")
+#'
+#'  fit the linear model with 90% CI
+#'  linreg(y,x,CI_level = 0.90)
 #'
 #'@export
 #'
@@ -88,23 +100,24 @@ linreg <- function(y,x,
     SSY <- sum(y^2)
   }
 
+  #fit multiple regression model
   if (slr == F){
     if (!method %in% method_type){
       stop(gettextf("method = '%s' is not supported. Using 'qr', 'svd' or 'inverse'", method), domain = NA)
     }
 
-    else if (method == "qr"){
+    else if (method == "qr"){ #with qr decomposition
       inter_qr <- qr(x, lapack=TRUE)
       hat_beta <- qr.coef(inter_qr, y)
     }
 
-    else if (method =="svd"){
+    else if (method =="svd"){ #with svd decomposition
       inter_svd <- svd(x)
       m1 <-  crossprod(inter_svd$u, y)
       hat_beta <- crossprod(t(inter_svd$v), (m1 / inter_svd$d))
     }
 
-    else{
+    else{ #with least square estimation
       hat_beta <- solve(t(x) %*% x) %*% t(x) %*% y
     }
 
@@ -122,9 +135,11 @@ linreg <- function(y,x,
   Adj.R_squared <- 1 - (n - 1) * MSE / SSY
   R.squared <- list(R.squared = R_squared, Adjusted.R.squared = Adj.R_squared)
 
+  #t test
   t_stat <- hat_beta / se_beta
   p_value_t = pt(abs(t_stat), n - p, lower.tail = FALSE) * 2
 
+  #f test
   df1 <- p - intercept
   df2 <- n - p
   f_stat <- (SSY - SSE) / df1 / MSE
@@ -134,6 +149,7 @@ linreg <- function(y,x,
                   df1 = df1,
                   df2 = df2)
 
+  #confidence interval
   ci_t <- qt(p = 1 - (1 - CI_level) / 2, df = (n - p))
   upper_ci <- hat_beta + ci_t * se_beta
   lower_ci <- hat_beta - ci_t * se_beta
